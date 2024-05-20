@@ -7,6 +7,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { url } from "@/network/domain";
 import Todo from "./components/Todo";
 import Link from "next/link";
+import Footer from "./components/Footer";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
@@ -84,6 +85,7 @@ export default function Home() {
           </tbody>
         </table>
       </div>
+      <Footer />
     </main>
   );
 }
