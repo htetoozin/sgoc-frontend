@@ -1,19 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { url } from "@/network/domain";
 import SubmitButton from "@/app/common/SubmitButton";
 
-const CreateTodoPage = () => {
+const EditTodoPage = ({ params }) => {
   const router = useRouter();
-
   const [todo, setTodo] = useState({
     title: "",
     description: "",
-    is_active: false,
+    is_active: "",
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchTodo();
+  }, [params.id]);
+
+  const fetchTodo = async () => {
+    const res = await fetch(`${url}/api/todos/${params.id}`);
+    const data = await res.json();
+
+    const { data: todo } = data;
+
+    setTodo({ ...todo });
+  };
 
   const handleChange = (event) => {
     setTodo({ ...todo, [event.target.id]: event.target.value });
@@ -27,8 +39,8 @@ const CreateTodoPage = () => {
     event.preventDefault();
     setLoading(true);
 
-    const response = await fetch(`${url}/api/todos`, {
-      method: "POST",
+    const response = await fetch(`${url}/api/todos/${params.id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -96,11 +108,10 @@ const CreateTodoPage = () => {
             Active
           </label>
         </div>
-
-        <SubmitButton loading={loading} label="Create" />
+        <SubmitButton loading={loading} label="Update" />
       </form>
     </main>
   );
 };
 
-export default CreateTodoPage;
+export default EditTodoPage;

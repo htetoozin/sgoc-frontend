@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { url } from "@/network/domain";
 import Todo from "./components/Todo";
 import Link from "next/link";
 
@@ -17,7 +18,7 @@ export default function Home() {
   }, []);
 
   const fetchTodos = async () => {
-    const res = await fetch("http://sgoc.test/api/todos");
+    const res = await fetch(`${url}/api/todos`);
     const data = await res.json();
 
     const { data: todos } = data;
