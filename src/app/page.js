@@ -11,8 +11,6 @@ import Link from "next/link";
 export default function Home() {
   const [todos, setTodos] = useState([]);
 
-  // const router = useRouter();
-
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -26,6 +24,21 @@ export default function Home() {
     setTodos([...todos]);
   };
 
+  const deleteTodo = async (todoId) => {
+    const response = await fetch(`${url}/api/todos/${todoId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setTodos(todos.filter((todo) => todo.id !== todoId));
+    } else {
+      console.error("Failed to create todo");
+    }
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-gray-900 uppercase font-extrabold">Todo Lists</h1>
@@ -66,7 +79,7 @@ export default function Home() {
           </thead>
           <tbody>
             {todos.map((todo) => (
-              <Todo key={todo.id} todo={todo} />
+              <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} />
             ))}
           </tbody>
         </table>

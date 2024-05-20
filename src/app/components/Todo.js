@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, deleteTodo }) => {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       <th
@@ -34,6 +34,7 @@ const Todo = ({ todo }) => {
       </td>
       <td>
         <button
+          onClick={() => deleteTodo(todo.id)}
           type="button"
           className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
